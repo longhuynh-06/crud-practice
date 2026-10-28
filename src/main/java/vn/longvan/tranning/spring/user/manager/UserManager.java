@@ -1,6 +1,7 @@
 package vn.longvan.tranning.spring.user.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -46,6 +47,9 @@ public class UserManager {
         return mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), User.class);
     }
 
+    public boolean existsById(String id){
+        return mongoTemplate.exists(Query.query(Criteria.where("id").is(id)), User.class);
+    }
     /**
      * Create new user.
      * Kiểm tra nếu user đã tồn tại thì trả về exception  UserAlreadyExits
@@ -56,6 +60,11 @@ public class UserManager {
      * @param user
      */
     public void createUser(User user) throws UserAlreadyExistException {
+        try{
+            mongoTemplate.insert(user);
+        }catch (DuplicateKeyException e){
+            throw new UserAlreadyExistException(USER_EXIST,user);
+        }
 
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import vn.longvan.tranning.spring.user.exception.UserAlreadyExistException;
@@ -13,7 +14,11 @@ import vn.longvan.tranning.spring.user.model.User;
 import vn.longvan.tranning.spring.user.manager.UserManager;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringTrainingApplication.class)
@@ -68,4 +73,5 @@ public class TestUserManager {
          */
 
     }
+
 }
