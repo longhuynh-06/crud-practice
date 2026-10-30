@@ -13,6 +13,7 @@ import vn.longvan.tranning.spring.user.exception.UserAlreadyExistException;
 import vn.longvan.tranning.spring.user.exception.UserNotExistException;
 import vn.longvan.tranning.spring.user.model.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -77,7 +78,7 @@ public class UserManager {
      */
     public void changeUserName(String userId, String newName) throws UserNotExistException {
         Query q = Query.query(Criteria.where("id").is(userId));
-        UpdateResult result = mongoTemplate.updateFirst(q, new Update().set("name",newName), User.class);
+        UpdateResult result = mongoTemplate.updateFirst(q, new Update().set("name",newName).set("updated", new Date()), User.class);
         if(result.getMatchedCount() == 0){ //sài Matched để kiểm tra vì trả ra số document match điều kiện còn modifeld là số document đã thay đổi
             throw new UserNotExistException(USER_NOT_EXIST, userId);
         }
