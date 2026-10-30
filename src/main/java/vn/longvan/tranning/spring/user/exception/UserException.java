@@ -3,6 +3,9 @@ package vn.longvan.tranning.spring.user.exception;
 public class UserException extends RuntimeException {
     private UserErrorCode errorCode;
 
+    public UserErrorCode getErrorCode() {
+        return errorCode;
+    }
     public UserException(String message, UserErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
