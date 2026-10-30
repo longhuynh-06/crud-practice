@@ -9,16 +9,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
+import vn.longvan.tranning.spring.user.exception.UserAlreadyExistException;
+import vn.longvan.tranning.spring.user.exception.UserNotExistException;
 import vn.longvan.tranning.spring.user.model.User;
 import vn.longvan.tranning.spring.user.manager.UserManager;
 
 
+import java.util.Date;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringTrainingApplication.class)
 @AutoConfigureDataMongo
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestUserManager {
 
     @Autowired
@@ -31,11 +37,20 @@ public class TestUserManager {
     public void setup() {
         createUser = new User();
         createUser.setId(UUID.randomUUID().toString());
+        createUser.setName("First name");
+        createUser.setBirthDay(new Date());
     }
 
     @Test
     @Order(2)
     public void testCreateUser() {
+        assertDoesNotThrow(() -> userManager.createUser(createUser));
+        User found = userManager.getUser(createUser.getId());
+        assertNotNull(found);
+        assertEquals(createUser.getId(), found.getId());
+        assertEquals("First name", found.getName());
+        assertThrows((UserAlreadyExistException.class), () ->
+                userManager.createUser(createUser));
         /**
          *  Trình tự test
          *   1. Create user.
@@ -48,6 +63,12 @@ public class TestUserManager {
     @Test
     @Order(3)
     public void testUpdateUserName() {
+        assertDoesNotThrow(() ->userManager.changeUserName(createUser.getId(),"New name"));
+        User found = userManager.getUser(createUser.getId());
+        assertEquals("New name", found.getName());
+        assertNotNull(found.getBirthDay());
+        assertThrows((UserNotExistException.class), ()->
+        userManager.changeUserName(UUID.randomUUID().toString(),"Name"));
         /**
          *  Trình tự test
          *  1. Change user name.
@@ -60,6 +81,10 @@ public class TestUserManager {
     @Test
     @Order(4)
     public void testDeleteUser() {
+        assertDoesNotThrow(()->userManager.deleteUser(createUser.getId()));
+        assertNull(userManager.getUser(createUser.getId()), "user đã xóa không còn được hiển thị");
+        assertThrows((UserNotExistException.class), () ->
+                userManager.deleteUser(UUID.randomUUID().toString()));
         /**
          *  Trình tự test
          *  1. Thực hiện xóa user
@@ -68,6 +93,5 @@ public class TestUserManager {
          */
 
     }
-
 
 }
