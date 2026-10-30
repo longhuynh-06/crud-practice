@@ -50,9 +50,6 @@ public class UserManager {
         return mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), User.class);
     }
 
-    public boolean existsById(String id){
-        return mongoTemplate.exists(Query.query(Criteria.where("id").is(id)), User.class);
-    }
     /**
      * Create new user.
      * Kiểm tra nếu user đã tồn tại thì trả về exception  UserAlreadyExits
