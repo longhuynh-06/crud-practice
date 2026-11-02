@@ -14,9 +14,9 @@
 <h:body>
     <p>Số lượng người dùng: #{userBean.totalUsers}</p>
     <h:form>
-        <p:dataTable var="u" value="#{userBean.users}" rows="5" paginator="true" emptyMessage="Không có dữ liệu">
+        <p:dataTable var="u" value="#{userBean.lazyUsers}" rows="5" paginator="true" emptyMessage="Không có dữ liệu">
           <p:column headerText="Tên">
-              <h:outputText value="#{u.name}"/><
+              <h:outputText value="#{u.name}"/>
           </p:column>
           <p:column headerText="Ngày sinh">
               <h:outputText value="#{u.birthDay}">
