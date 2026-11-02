@@ -57,7 +57,15 @@ public class UserController {
             throw new UserException(USER_NAME_INVALID,UserErrorCode.USER_EXCEPTION);
         }
     }
-
+    public List<User> getUsers(int first, int pageSize){
+        if(first < 0 || pageSize <= 0){
+            throw new UserException("Không có dữ liệu", UserErrorCode.USER_EXCEPTION);
+        }
+        return userManager.getUsers(first,pageSize);
+    }
+    public long countUsers(){
+        return userManager.countUsers();
+    }
     public static String USER_NAME_INVALID = "Tên người dùng không hợp lệ";
 
 

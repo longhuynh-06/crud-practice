@@ -2,8 +2,10 @@ package vn.longvan.tranning.spring.user.manager;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -98,6 +100,13 @@ public class UserManager {
         }
     }
 
+    public List<User> getUsers(int first, int pageSize){
+        Query q = new Query().with(Sort.by(Sort.Order.asc("created"), Sort.Order.desc("id"))).skip(first).limit(pageSize);
+        return mongoTemplate.find(q,User.class);
+    }
+    public long countUsers(){
+        return mongoTemplate.count(new Query(), User.class);
+    }
     public static String USER_EXIST = "User đã tồn tại";
     public static String USER_NOT_EXIST = "User không tồn tại";
 
