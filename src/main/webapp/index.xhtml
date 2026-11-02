@@ -13,5 +13,23 @@
 
 <h:body>
     <p>Số lượng người dùng: #{userBean.totalUsers}</p>
+    <h:form>
+        <p:dataTable var="u" value="#{userBean.users}" rows="5" paginator="true" emptyMessage="Không có dữ liệu">
+          <p:column headerText="Tên">
+              <h:outputText value="#{u.name}"/><
+          </p:column>
+          <p:column headerText="Ngày sinh">
+              <h:outputText value="#{u.birthDay}">
+                  <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Asia/Ho_Chi_Minh"/>
+              </h:outputText>
+          </p:column>
+          <p:column headerText="Ngày tạo">
+              <h:outputText value="#{u.created}">
+                  <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Asia/Ho_Chi_Minh"/>
+              </h:outputText>
+          </p:column>
+        </p:dataTable>
+    </h:form>
 </h:body>
+
 </html>
