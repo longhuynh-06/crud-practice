@@ -12,9 +12,10 @@
 </h:head>
 
 <h:body>
-    <p>Số lượng người dùng: #{userBean.totalUsers}</p>
-    <h:form>
-        <p:dataTable var="u" value="#{userBean.lazyUsers}" rows="5" paginator="true" emptyMessage="Không có dữ liệu">
+
+    <h:form id="frmList">
+        <h:outputText id="count" value="số lượng người dùng: #{userListBean.totalUsers}"/>
+        <p:dataTable id ="table" var="u" value="#{userListBean.lazyUsers}" rows="5" paginator="true" emptyMessage="Không có dữ liệu">
           <p:column headerText="Tên">
               <h:outputText value="#{u.name}"/>
           </p:column>
@@ -29,6 +30,25 @@
               </h:outputText>
           </p:column>
         </p:dataTable>
+    </h:form>
+
+    <p:commandButton value="Thêm người dùng" type="button" onclick="PF('dlgAdd').show()"/>
+    <p:dialog header="Thêm người dùng" widgetVar="dlgAdd" modal="true" resizable="false">
+        <h:form id="frmAdd">
+            <h:panelGrid columns="2">
+                <p:outputLabel for="name" value="Tên người dùng"/>
+                <p:inputText id="name" value="#{userListBean.name}" required="true" requiredMessage="Tên không được để trống"/>
+                <p:outputLabel for="birth" value="Ngay sinh(dd/MM/yyyy)"/>
+                <p:inputText id="birth" value="#{userListBean.birthDay}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="Asia/Ho_Chi_Minh"/>
+                </p:inputText>
+            </h:panelGrid>
+            <p:messages id="msgs"/>
+            <p:commandButton value="Thêm" action="#{userListBean.createUser}" update="msgs :Notification:msgSucces :frmList:count :frmList:table" oncomplete="if(args.saved) PF('dlgAdd').hide()"/>
+        </h:form>
+    </p:dialog>
+    <h:form id="Notification">
+        <p:messages id="msgSucces" closable="true" showDetail="true"/>
     </h:form>
 </h:body>
 
