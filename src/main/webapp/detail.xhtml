@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:co="http://java.sun.com/jsf/composite/com">
+<f:metadata>
+    <f:viewParam name="id" value="#{userDetailBean.id}"/>
+    <f:viewAction action="#{userDetailBean.load}"/>
+</f:metadata>
+<h:head><title>Thông tin chi tiết</title></h:head>
+<h:body>
+    <h:form id="frmDetail">
+        <p:dataTable id="table" var="u" value="#{userDetailBean.user}" emptyMessage="Không tìm thấy người dùng">
+            <p:column headerText="ID">
+                <h:outputText value="#{u.id}"/>
+            </p:column>
+            <p:column headerText="Tên">
+                <h:outputText value="#{u.name}"/>
+            </p:column>
+            <p:column headerText="Ngày sinh">
+                <h:outputText value="#{u.birthDay}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="Asia/Ho_Chi_Minh"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Ngày tạo">
+                <h:outputText value="#{u.created}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="Asia/Ho_Chi_Minh"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Ngày update gần nhất">
+                <h:outputText value="#{u.updated}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" timeZone="Asia/Ho_Chi_Minh"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <p:commandButton process="@this" value="Cập nhập" action="#{userDetailBean.prepareUpdate}" update=":frmUpdate" oncomplete="PF('dlgUpdate').show()"/>
+    <p:dialog header="Cập nhập người dùng" widgetVar="dlgUpdate" modal="true" resizable="false">
+    <h:form id="frmUpdate">
+        <co:userForm userName="#{userDetailBean.name}" birthDay="#{userDetailBean.birthDay}" />
+        <p:messages id="error" globalOnly="true" severity="error" showDetail="true"/>
+        <p:commandButton process="@form" value="Cập nhập" action="#{userDetailBean.update}" update="@form error :Notification:success :frmDetail" oncomplete="if(args.saved) PF('dlgUpdate').hide()"/>
+    </h:form>
+    </p:dialog>
+    <h:form id="Notification">
+        <p:messages id="success" globalOnly="true" severity="info" closable="true" showDetail="true"/>
+    </h:form>
+</h:body>
+</html>

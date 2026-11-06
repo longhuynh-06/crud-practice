@@ -59,7 +59,7 @@ public class UserListBean implements Serializable {
             PrimeFaces.current().ajax().addCallbackParam("saved",true);
 
         }catch(UserException e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loi", e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Loi: ", e.getMessage()));
         }
 
     }
