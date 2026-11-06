@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+<composite:interface>
+
+    <composite:attribute name="userName" required="true"/>
+    <composite:attribute name="birthDay" required="true"/>
+    <composite:attribute name="birthDayDisabled" default="false"/>
+</composite:interface>
+<composite:implementation>
+    <h:panelGrid columns="2">
+        <h:outputText value="Tên người dùng: "/>
+        <h:inputText id="name" value="#{cc.attrs.userName}" required="true" requiredMessage="Tên không hợp lệ"/>
+        <h:outputText value="Ngày sinh (dd/MM/yyyy): "/>
+        <h:inputText id="birthDay" value="#{cc.attrs.birthDay}" disabled="#{cc.attrs.birthDayDisabled}">
+            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="Asia/Ho_Chi_Minh"/>
+        </h:inputText>
+    </h:panelGrid>
+    <p:messages for="name"/>
+    <p:messages for="birthDay"/>
+</composite:implementation>
+
+</html>
