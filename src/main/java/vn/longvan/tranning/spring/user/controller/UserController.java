@@ -35,6 +35,10 @@ public class UserController {
         }
         return user;
     }
+    public void update(String userId,String name,Date birthDay){
+        checkName(name);
+        userManager.update(userId,name,birthDay);
+    }
 
     public List<User> getAllUser(){
         return userManager.getAllUser();
@@ -63,6 +67,7 @@ public class UserController {
         }
         return userManager.getUsers(first,pageSize);
     }
+
     public long countUsers(){
         return userManager.countUsers();
     }

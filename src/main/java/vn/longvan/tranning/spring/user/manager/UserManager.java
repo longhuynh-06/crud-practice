@@ -100,6 +100,14 @@ public class UserManager {
         }
     }
 
+    public void update(String userId, String name, Date birthDay){
+        Query q = Query.query(Criteria.where("id").is(userId));
+        UpdateResult result =mongoTemplate.updateFirst(q, new Update().set("name",name).set("birthDay",birthDay).set("updated",new Date()),User.class);
+        if(result.getMatchedCount() == 0){
+            throw new UserNotExistException(USER_NOT_EXIST,userId);
+        }
+    }
+
     public List<User> getUsers(int first, int pageSize){
         Query q = new Query().with(Sort.by(Sort.Order.asc("created"), Sort.Order.desc("id"))).skip(first).limit(pageSize);
         return mongoTemplate.find(q,User.class);
