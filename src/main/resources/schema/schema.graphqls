@@ -4,6 +4,11 @@ type Query {
     users(page: Int!, size: Int!): [User!]!,
     totalUsers: Int!
 }
+type Mutation {
+    createUser(name: String!, birthDay: String): User!
+    changeUserName(id: ID!, newName: String!): User!
+    deleteUser(id: ID!): Boolean!
+}
 type User {
 id: ID!,
 name: String!,

@@ -56,16 +56,17 @@ public class UserController {
     public List<User> findByName(String name){
         return userManager.findByName(name);
     }
-    public void checkName(String name){
-        if(name == null || name.trim().isEmpty()){
-            throw new UserException(USER_NAME_INVALID,UserErrorCode.USER_EXCEPTION);
-        }
-    }
+
     public List<User> getUsers(int first, int pageSize){
         if(first < 0 || pageSize <= 0){
             throw new UserException("Không có dữ liệu", UserErrorCode.USER_EXCEPTION);
         }
         return userManager.getUsers(first,pageSize);
+    }
+    public void checkName(String name){
+        if(name == null || name.trim().isEmpty()){
+            throw new UserException(USER_NAME_INVALID,UserErrorCode.USER_EXCEPTION);
+        }
     }
 
     public long countUsers(){
