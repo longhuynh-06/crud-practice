@@ -1,3 +1,13 @@
 type Query {
-    hello: String
+    hello: String,
+    user(id: ID!): User,
+    users(page: Int!, size: Int!): [User!]!,
+    totalUsers: Int!
+}
+type User {
+id: ID!,
+name: String!,
+birthDay: String,
+created: String,
+updated: String
 }
