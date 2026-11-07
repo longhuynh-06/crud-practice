@@ -37,7 +37,7 @@ public class UserController {
     }
     public void update(String userId,String name,Date birthDay){
         checkName(name);
-        userManager.update(userId,name,birthDay);
+        userManager.update(userId,name.trim(),birthDay);
     }
 
     public List<User> getAllUser(){
