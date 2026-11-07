@@ -77,9 +77,19 @@ public class TestUserManager {
          */
 
     }
-
     @Test
     @Order(4)
+    public void updateUserNameAndBirthDay(){
+        Date checkUpdated = createUser.getUpdated();
+        assertDoesNotThrow(()->userManager.update(createUser.getId(), "long minh", null));
+        User found = userManager.getUser(createUser.getId());
+        assertEquals("long minh", found.getName());
+        assertNull(found.getBirthDay());
+        assertNotEquals(checkUpdated, found.getUpdated());
+        assertThrows(UserNotExistException.class,()->userManager.update("0", "long", null));
+    }
+    @Test
+    @Order(5)
     public void testDeleteUser() {
         assertDoesNotThrow(()->userManager.deleteUser(createUser.getId()));
         assertNull(userManager.getUser(createUser.getId()), "user đã xóa không còn được hiển thị");

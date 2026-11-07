@@ -51,13 +51,23 @@ public class TestUserController {
         assertNotEquals(checkUpdate, found.getUpdated());
     }
 
-    @Test
+
+
+    @Test()
     @Order(3)
+    public void update(){
+        assertDoesNotThrow(()->userController.update(created.getId(), "minh long", null));
+        User found = userController.getUser(created.getId());
+        assertEquals("minh long", found.getName());
+        assertNull(found.getBirthDay());
+        assertThrows(UserNotExistException.class,()->userController.update("0", "minh long", null));
+        assertThrows(UserException.class,()-> userController.update(found.getId(), "     ",null));
+    }
+    @Test
+    @Order(4)
     public void testDeleteUser(){
         assertDoesNotThrow(()->userController.deleteUser(created.getId()));
         assertThrows(UserNotExistException.class, ()-> userController.getUser(created.getId()));
         assertThrows(UserNotExistException.class,()->userController.deleteUser(UUID.randomUUID().toString()));
     }
-
-
 }
