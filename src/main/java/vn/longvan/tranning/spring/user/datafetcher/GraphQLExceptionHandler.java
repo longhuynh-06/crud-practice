@@ -24,7 +24,7 @@ public class GraphQLExceptionHandler implements DataFetcherExceptionHandler {
         } else if (ex instanceof DgsBadRequestException) {
             error = TypedGraphQLError.newBadRequestBuilder().message("%s", ex.getMessage()).path(handlerParameters.getPath()).build();
         } else if(ex instanceof UserException) {
-            error = TypedGraphQLError.newNotFoundBuilder().message("%s", ex.getMessage()).path(handlerParameters.getPath()).build();
+            error = TypedGraphQLError.newBadRequestBuilder().message("%s", ex.getMessage()).path(handlerParameters.getPath()).build();
         }else {
             return defaultHandler.onException(handlerParameters);
         }
